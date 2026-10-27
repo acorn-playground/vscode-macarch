@@ -1,0 +1,30 @@
+# Publishes the extension when a version tag is pushed (e.g. v0.1.0, which
+# must match package.json's version): to the Visual Studio Marketplace with
+# the VSCE_PAT secret, and to Open VSX with OVSX_PAT if that secret is set.
+name: Publish
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      VSCE_PAT: ${{ secrets.VSCE_PAT }}
+      OVSX_PAT: ${{ secrets.OVSX_PAT }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check the tag matches package.json
+        run: |
+          version=$(node -p "require('./package.json').version")
+          test "v$version" = "$GITHUB_REF_NAME" || { echo "tag $GITHUB_REF_NAME, package.json $version"; exit 1; }
+      - run: npx @vscode/vsce@3.6.0 package -o macarch-debug.vsix
+      - name: Visual Studio Marketplace
+        run: npx @vscode/vsce@3.6.0 publish --packagePath macarch-debug.vsix
+      - name: Open VSX
+        if: env.OVSX_PAT != ''
+        run: npx ovsx@0.10.1 publish macarch-debug.vsix

@@ -1,1 +1,4 @@
+.github/**
+.gitignore
 test/**
+*.vsix

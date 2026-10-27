@@ -3,14 +3,38 @@
   "displayName": "MacArch: Acorn Archimedes debugger",
   "description": "Write ARM assembler or BBC BASIC and debug it on MacArch's emulated Acorn Archimedes: assemble and run with F5, breakpoints in the source (or a BASIC program's lines), stepping (and stepping back), registers, BASIC variables, memory, disassembly and watchpoints.",
   "version": "0.1.0",
-  "publisher": "accidentalfish",
-  "license": "SEE LICENSE IN README.md",
+  "publisher": "AcornPlayground",
+  "license": "GPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acorn-playground/vscode-macarch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/acorn-playground/vscode-macarch/issues"
+  },
+  "homepage": "https://github.com/acorn-playground/vscode-macarch#readme",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#1A1A1A",
+    "theme": "dark"
+  },
   "engines": {
     "vscode": "^1.80.0"
   },
   "categories": [
     "Debuggers",
     "Programming Languages"
+  ],
+  "keywords": [
+    "acorn",
+    "archimedes",
+    "risc os",
+    "arm",
+    "arm2",
+    "emulator",
+    "bbc basic",
+    "assembler",
+    "retro"
   ],
   "main": "./extension.js",
   "activationEvents": [
@@ -103,7 +127,19 @@
               },
               "model": {
                 "type": "string",
-                "enum": ["A305", "A310", "A3000", "A410/1", "A420/1", "A440/1", "A540", "A5000", "A3010", "A3020", "A4000"],
+                "enum": [
+                  "A305",
+                  "A310",
+                  "A3000",
+                  "A410/1",
+                  "A420/1",
+                  "A440/1",
+                  "A540",
+                  "A5000",
+                  "A3010",
+                  "A3020",
+                  "A4000"
+                ],
                 "description": "Switch the machine to this model first (it's power cycled)."
               },
               "disc": {
