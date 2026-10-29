@@ -9,8 +9,8 @@ address, and what the program prints in the debug console. It talks to
 MacArch over the Debug Adapter Protocol on localhost port 3200 (Settings >
 Debugging in MacArch).
 
-**You need [MacArch](https://github.com/JamesRandall/macarc), the Acorn
-Archimedes emulator for the Mac** ([download](https://github.com/JamesRandall/macarc/releases/latest);
+**You need [MacArch](https://github.com/acorn-playground/macarch), the Acorn
+Archimedes emulator for the Mac** ([download](https://github.com/acorn-playground/macarch/releases/latest);
 macOS 26), and a RISC OS ROM of your own. The extension starts MacArch if
 it isn't running. MacArch assembles ARM sources itself, so there's nothing
 else to install.
@@ -53,8 +53,8 @@ The assembler takes BBC BASIC V's assembler syntax as a file of its own,
 so `.label`, `ADDEQS`, `LDMFD R13!, {R0-R3, PC}^`, `SWI "OS_Write0"`,
 `EQUS`/`EQUB`/`EQUD` and `ALIGN` all work, along with `LDR R0, =value`,
 `ADR`/`ADRL`, `INCLUDE`, `name EQU value` and comments after `;` or `\`.
-See [Examples/hello-arm](https://github.com/JamesRandall/macarc/tree/main/Examples/hello-arm), and the Assembler section of
-MacArch's [README](https://github.com/JamesRandall/macarc#readme).
+See [Examples/hello-arm](https://github.com/acorn-playground/macarch/tree/main/Examples/hello-arm), and the Assembler section of
+MacArch's [README](https://github.com/acorn-playground/macarch#readme).
 
 For BBC BASIC, press F5 in a `.bas` file, or:
 
@@ -74,7 +74,7 @@ over, into and out of PROCs, FNs and GOSUBs; the call stack is the PROC and
 FN calls; the Variables view has BASIC's variables, LOCALs first; the debug
 console and hovers evaluate BASIC expressions. Turn on the BASIC errors
 exception breakpoint to stop where an error happens. `stopOnEntry` stops at
-the first statement. See [Examples/hello-basic](https://github.com/JamesRandall/macarc/tree/main/Examples/hello-basic) in MacArch.
+the first statement. See [Examples/hello-basic](https://github.com/acorn-playground/macarch/tree/main/Examples/hello-basic) in MacArch.
 
 In the debug console, expressions use registers, flags, symbols and
 memory: `R0`, `PC+4`, `[R1]` (a byte), `{R13}` (a word), `greeting`,
