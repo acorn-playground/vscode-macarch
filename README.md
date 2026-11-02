@@ -49,6 +49,46 @@ label file. `attach` debugs whatever is running.
 
 Assembly errors appear in the debug console as `file:line: message`.
 
+### Starting from a baseline
+
+To start every run from the same machine, rather than whatever state the
+last run left behind, use a baseline snapshot. Run **MacArch: Choose
+Baseline Snapshot** from the Command Palette, or click the camera in the
+status bar while an ARM or BASIC file is open, and pick **New baseline…**
+and give it a name. Then set the machine up how you want it, for example
+with a mode chosen or modules loaded, and press F5. Because the file
+doesn't exist yet, MacArch saves the machine as it is then to
+`.vscode/snapshots/<name>.macarchstate` (after switching to the configured
+`model`, before putting `disc` in the drive). Every run after that restores
+it before loading your program, and keeps your breakpoints.
+
+You can keep as many baselines as you like (say, `clean-desktop` and
+`mode-13`) and switch between them with the same command: it lists every
+`.macarchstate` file in the workspace, plus **None** to stop using one. The
+choice is the `macarch.snapshot` setting in `.vscode/settings.json`. To take
+a baseline again, run **MacArch: Forget Baseline Snapshot** (or delete the
+file), then press F5.
+
+A launch configuration can name its own, which wins over the chosen one
+(`"snapshot": ""` for none):
+
+    {
+      "type": "macarch",
+      "request": "launch",
+      "name": "Assemble and run (from baseline)",
+      "source": "${workspaceFolder}/game.s",
+      "snapshot": "${workspaceFolder}/.vscode/snapshots/clean-desktop.macarchstate"
+    }
+
+Baselines need MacArch 0.5.4 or later. Snapshots are binary and only restore with the ROM they were taken with, so you may want
+`.vscode/snapshots/` in `.gitignore`.
+
+A snapshot belongs to the ROM it was taken with. Floppies are recorded by
+path and contents, so a disc that was in the drive when the baseline was
+taken must still be unchanged (the `disc` setting's image is inserted
+afterwards, so it can change). Hard discs are reattached as they are now,
+not rolled back.
+
 The assembler takes BBC BASIC V's assembler syntax as a file of its own,
 so `.label`, `ADDEQS`, `LDMFD R13!, {R0-R3, PC}^`, `SWI "OS_Write0"`,
 `EQUS`/`EQUB`/`EQUD` and `ALIGN` all work, along with `LDR R0, =value`,

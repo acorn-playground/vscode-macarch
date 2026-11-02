@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0
+
+- Baseline snapshots: a `.macarchstate` file saved on the first run and restored at the start of every run after, so each starts from the same machine. **MacArch: Choose Baseline Snapshot** (or the status bar) picks one of several, makes a new one or turns them off (the `macarch.snapshot` setting); a launch configuration's own `snapshot` wins. **MacArch: Forget Baseline Snapshot** deletes one to take it again. Needs MacArch 0.5.4 or later.
+
 ## 0.1.0
 
 The first release.

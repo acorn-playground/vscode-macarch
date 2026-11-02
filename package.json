@@ -2,7 +2,7 @@
   "name": "macarch-debug",
   "displayName": "MacArch: Acorn Archimedes debugger",
   "description": "Write ARM assembler or BBC BASIC and debug it on MacArch's emulated Acorn Archimedes: assemble and run with F5, breakpoints in the source (or a BASIC program's lines), stepping (and stepping back), registers, BASIC variables, memory, disassembly and watchpoints.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "AcornPlayground",
   "license": "GPL-3.0-only",
   "repository": {
@@ -41,9 +41,35 @@
     "onDebugResolve:macarch",
     "onDebugDynamicConfigurations:macarch",
     "onLanguage:arm-macarch",
-    "onLanguage:bbcbasic"
+    "onLanguage:bbcbasic",
+    "onCommand:macarch.chooseBaseline",
+    "onCommand:macarch.forgetBaseline"
   ],
   "contributes": {
+    "commands": [
+      {
+        "command": "macarch.chooseBaseline",
+        "title": "Choose Baseline Snapshot",
+        "category": "MacArch",
+        "icon": "$(device-camera)"
+      },
+      {
+        "command": "macarch.forgetBaseline",
+        "title": "Forget Baseline Snapshot",
+        "category": "MacArch"
+      }
+    ],
+    "configuration": {
+      "title": "MacArch",
+      "properties": {
+        "macarch.snapshot": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "markdownDescription": "The baseline snapshot (`.macarchstate`) MacArch runs start from, relative to the workspace folder. Set it with **MacArch: Choose Baseline Snapshot**. If the file doesn't exist yet, the next run saves the machine as it is then. A launch configuration's own `snapshot` wins over this (`\"\"` for none)."
+        }
+      }
+    },
     "languages": [
       {
         "id": "arm-macarch",
@@ -146,6 +172,10 @@
                 "type": "string",
                 "description": "A floppy disc image (.adf) to put in drive 0."
               },
+              "snapshot": {
+                "type": "string",
+                "description": "A baseline snapshot (.macarchstate) so every run starts from the same machine. If the file exists, MacArch restores it before loading the program; if not, it saves the machine as it is now (after `model`, before `disc`) as the baseline. Without this, the macarch.snapshot setting (MacArch: Choose Baseline Snapshot) is used; \"\" for none. MacArch: Forget Baseline Snapshot deletes it so the next run takes a new one."
+              },
               "stopOnEntry": {
                 "type": "boolean",
                 "description": "Stop at the program's first instruction (for BASIC, its first statement)."
@@ -199,6 +229,16 @@
               "request": "launch",
               "name": "Assemble and run",
               "source": "^\"\\${workspaceFolder}/${1:main.s}\""
+            }
+          },
+          {
+            "label": "MacArch: Assemble and run from a baseline snapshot",
+            "body": {
+              "type": "macarch",
+              "request": "launch",
+              "name": "Assemble and run (from baseline)",
+              "source": "^\"\\${workspaceFolder}/${1:main.s}\"",
+              "snapshot": "^\"\\${workspaceFolder}/.vscode/${2:baseline}.macarchstate\""
             }
           },
           {
